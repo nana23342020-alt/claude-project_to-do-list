@@ -2,12 +2,12 @@
 
 import { Todo } from "@/lib/types";
 import {
-  fd,
+  formatDate,
   getTodoEmoji,
   priorityLabels,
   priorityStyles,
-  todayString,
 } from "@/lib/utils";
+import { useToday } from "@/lib/useToday";
 import Checkbox from "./Checkbox";
 
 interface Props {
@@ -16,27 +16,32 @@ interface Props {
   onDelete: (id: string) => void;
 }
 
-export default function TodoItem({ todo, onToggle, onDelete }: Props) {
-  // 미완료 할일의 마감일이 지났거나 오늘이면 강조한다.
-  const today = todayString();
-  let dueLabel = "";
-  let dueClass = "";
-  if (todo.dueDate && !todo.completed) {
-    if (todo.dueDate < today) {
-      dueLabel = "지남";
-      dueClass = "font-medium text-red-500";
-    } else if (todo.dueDate === today) {
-      dueLabel = "오늘";
-      dueClass = "font-medium text-[#D97757]";
-    }
+// 미완료 할일의 마감일이 지났거나 오늘이면 강조 라벨과 색을 돌려준다.
+function getDueStatus(todo: Todo, today: string | null) {
+  if (!todo.dueDate || todo.completed || !today) return null;
+  if (todo.dueDate < today) {
+    return { label: "지남", className: "font-medium text-red-500" };
   }
+  if (todo.dueDate === today) {
+    return { label: "오늘", className: "font-medium text-[#D97757]" };
+  }
+  return null;
+}
+
+export default function TodoItem({ todo, onToggle, onDelete }: Props) {
+  const today = useToday();
+  const dueStatus = getDueStatus(todo, today);
 
   return (
     <li className="flex items-center gap-3 border-b border-gray-100 px-4 py-3 transition-colors duration-200 hover:bg-orange-50/40">
-      <Checkbox checked={todo.completed} onChange={() => onToggle(todo.id)} />
-      <div className="flex-1">
+      <Checkbox
+        checked={todo.completed}
+        onChange={() => onToggle(todo.id)}
+        label={todo.text}
+      />
+      <div className="min-w-0 flex-1">
         <p
-          className={`transition-colors duration-200 ${
+          className={`break-words transition-colors duration-200 ${
             todo.completed ? "text-gray-400 line-through" : "text-gray-800"
           }`}
         >
@@ -56,17 +61,19 @@ export default function TodoItem({ todo, onToggle, onDelete }: Props) {
             {priorityLabels[todo.priority]}
           </span>
           {todo.dueDate && (
-            <span className={dueClass}>
-              마감 {fd(todo.dueDate)}
-              {dueLabel && ` · ${dueLabel}`}
+            <span className={dueStatus?.className}>
+              마감 {formatDate(todo.dueDate)}
+              {dueStatus && ` · ${dueStatus.label}`}
             </span>
           )}
-          <span>추가 {fd(todo.createdAt)}</span>
+          <span>추가 {formatDate(todo.createdAt)}</span>
         </div>
       </div>
       <button
+        type="button"
         onClick={() => onDelete(todo.id)}
-        className="rounded-md px-2 py-1 text-sm text-gray-400 transition-colors duration-200 hover:bg-red-50 hover:text-red-500"
+        aria-label={`${todo.text} 삭제`}
+        className="shrink-0 rounded-md px-2 py-1 text-sm text-gray-400 transition-colors duration-200 hover:bg-red-50 hover:text-red-500"
       >
         삭제
       </button>

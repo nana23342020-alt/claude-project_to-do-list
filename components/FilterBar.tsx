@@ -50,7 +50,10 @@ export default function FilterBar({
       <select
         aria-label="정렬"
         value={sortOrder}
-        onChange={(e) => onSortChange(e.target.value as SortOrder)}
+        onChange={(e) => {
+          const option = sortOptions.find((o) => o.value === e.target.value);
+          if (option) onSortChange(option.value);
+        }}
         className="ml-auto rounded-md border border-gray-200 bg-white px-2 py-1.5 text-xs text-gray-600 outline-none focus:border-[#D97757]"
       >
         {sortOptions.map((o) => (

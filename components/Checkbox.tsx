@@ -3,14 +3,17 @@
 interface Props {
   checked: boolean;
   onChange: () => void;
+  // 화면 읽기 프로그램이 읽을 이름 (예: 할일 내용)
+  label: string;
 }
 
-export default function Checkbox({ checked, onChange }: Props) {
+export default function Checkbox({ checked, onChange, label }: Props) {
   return (
     <button
       type="button"
       role="checkbox"
       aria-checked={checked}
+      aria-label={label}
       onClick={onChange}
       className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md border transition-all duration-200 active:scale-90 ${
         checked
