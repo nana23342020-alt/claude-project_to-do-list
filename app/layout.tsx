@@ -12,7 +12,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <main className="flex min-h-screen w-screen justify-center bg-gray-100">
+        <main className="flex min-h-screen w-full justify-center bg-gray-100">
           <div className="relative flex w-full max-w-md flex-col bg-white">
             {children}
           </div>

@@ -28,7 +28,7 @@ export default function FilterBar({
   onSortChange,
 }: Props) {
   return (
-    <div className="flex items-center gap-2 px-4 pb-2">
+    <div className="flex flex-wrap items-center gap-2 px-4 pb-2">
       {filters.map((f) => {
         const selected = f.value === filter;
         return (
@@ -37,7 +37,7 @@ export default function FilterBar({
             type="button"
             aria-pressed={selected}
             onClick={() => onChange(f.value)}
-            className={`rounded-full border px-3.5 py-1.5 text-sm transition-all duration-200 active:scale-95 ${
+            className={`whitespace-nowrap rounded-full border px-3.5 py-1.5 text-sm transition-all duration-200 active:scale-95 ${
               selected
                 ? "border-[#D97757] bg-[#D97757] text-white"
                 : "border-gray-200 text-gray-600 hover:border-[#D97757] hover:text-[#D97757]"

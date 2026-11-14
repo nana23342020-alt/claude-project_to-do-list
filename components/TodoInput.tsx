@@ -76,7 +76,7 @@ export default function TodoInput({ onAdd }: Props) {
         <button
           type="button"
           onClick={handleAdd}
-          className="rounded-lg bg-[#D97757] px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:bg-[#c96647] active:scale-95"
+          className="shrink-0 whitespace-nowrap rounded-lg bg-[#D97757] px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:bg-[#c96647] active:scale-95"
         >
           추가
         </button>
@@ -91,11 +91,11 @@ export default function TodoInput({ onAdd }: Props) {
           {error.message}
         </p>
       )}
-      <div className="mt-2 flex items-center justify-between gap-2">
+      <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
         <div
           role="group"
           aria-labelledby="priority-label"
-          className="flex items-center gap-1"
+          className="flex items-center gap-1 whitespace-nowrap"
         >
           <span id="priority-label" className="mr-1 text-xs text-gray-500">
             우선순위
@@ -119,7 +119,7 @@ export default function TodoInput({ onAdd }: Props) {
             );
           })}
         </div>
-        <label className="flex items-center gap-1 text-xs text-gray-500">
+        <label className="flex items-center gap-1 whitespace-nowrap text-xs text-gray-500">
           마감일
           <input
             type="date"
