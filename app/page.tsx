@@ -5,7 +5,7 @@ import Header from "@/components/Header";
 import TodoInput from "@/components/TodoInput";
 import FilterBar from "@/components/FilterBar";
 import TodoList from "@/components/TodoList";
-import { mockTodos } from "@/lib/mock-data";
+import { setTodos, useTodos } from "@/lib/todoStore";
 import { Filter, NewTodoOptions, SortOrder, Todo } from "@/lib/types";
 import { filterTodos, sortTodos, todayString } from "@/lib/utils";
 
@@ -16,7 +16,10 @@ const emptyMessages: Record<Filter, string> = {
 };
 
 export default function Home() {
-  const [todos, setTodos] = useState<Todo[]>(mockTodos);
+  // localStorage에 저장되는 목록. 브라우저에서 불러오기 전(서버 렌더링 중)에는 null.
+  const storedTodos = useTodos();
+  const loading = storedTodos === null;
+  const todos = storedTodos ?? [];
   const [filter, setFilter] = useState<Filter>("all");
   const [sortOrder, setSortOrder] = useState<SortOrder>("created");
 
@@ -58,7 +61,7 @@ export default function Home() {
       />
       <TodoList
         todos={visibleTodos}
-        emptyMessage={emptyMessages[filter]}
+        emptyMessage={loading ? "할일을 불러오는 중…" : emptyMessages[filter]}
         onToggle={toggleTodo}
         onDelete={deleteTodo}
       />
