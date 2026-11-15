@@ -1,8 +1,78 @@
 @import "tailwindcss";
 
+/*
+  디자인 토큰 — "노트에 파란 볼펜으로 적는 하루 메모"
+  - paper: 노트 종이, desk: 노트 바깥 책상
+  - ink: 파란 볼펜(주요 동작·선택·포커스), ink-soft: 선택 배경
+  - rule: 노트 줄, margin: 왼쪽 빨간 여백선
+  - pen-red: 빨간펜(높은 우선순위·오류·지난 마감)
+  - marker: 형광펜 — "오늘"에만 쓴다
+  - graphite: 본문 글자, pencil: 보조 글자
+*/
+@theme {
+  --color-paper: #fcfcfa;
+  --color-desk: #e6e9ee;
+  --color-ink: #1f3a93;
+  --color-ink-deep: #172c70;
+  --color-ink-soft: #e9edf8;
+  --color-rule: #dbe3f0;
+  --color-margin: #eaa6a6;
+  --color-pen-red: #c2362b;
+  --color-marker: #ffe45c;
+  --color-graphite: #2a2d34;
+  --color-pencil: #686e7a; /* 종이 위 대비 4.5:1 이상 */
+
+  --font-sans: var(--font-plex-kr), system-ui, sans-serif;
+  --font-display: var(--font-gowun-batang), serif;
+}
+
 body {
-  font-family:
-    system-ui,
-    -apple-system,
-    sans-serif;
+  background: var(--color-desk);
+  color: var(--color-graphite);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 키보드로 이동할 때만 보이는 포커스 표시 (볼펜색) */
+:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* 형광펜으로 칠한 듯한 배경: 글자 아래 절반만, 끝이 살짝 기울어진 띠 */
+.marker {
+  background-image: linear-gradient(
+    100deg,
+    transparent 0.3em,
+    var(--color-marker) 0.4em,
+    var(--color-marker) calc(100% - 0.4em),
+    transparent calc(100% - 0.3em)
+  );
+  background-size: 100% 0.62em;
+  background-position: 0 88%;
+  background-repeat: no-repeat;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* 체크 표시가 볼펜으로 그어지듯 나타난다 (사용자가 체크했을 때만) */
+@keyframes draw-check {
+  from {
+    stroke-dashoffset: 24;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.check-draw {
+  stroke-dasharray: 24;
+  animation: draw-check 220ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .check-draw {
+    animation: none;
+  }
 }

@@ -28,7 +28,8 @@ export default function FilterBar({
   onSortChange,
 }: Props) {
   return (
-    <div className="flex flex-wrap items-center gap-2 px-4 pb-2">
+    <div className="flex flex-wrap items-center gap-x-1 gap-y-2 border-b border-rule pb-2 pl-14 pr-4">
+      {/* 고른 필터는 볼펜 밑줄로 표시 */}
       {filters.map((f) => {
         const selected = f.value === filter;
         return (
@@ -37,10 +38,10 @@ export default function FilterBar({
             type="button"
             aria-pressed={selected}
             onClick={() => onChange(f.value)}
-            className={`whitespace-nowrap rounded-full border px-3.5 py-1.5 text-sm transition-all duration-200 active:scale-95 ${
+            className={`whitespace-nowrap rounded px-2 py-1 text-sm underline-offset-[6px] transition-colors duration-150 first:-ml-2 ${
               selected
-                ? "border-[#D97757] bg-[#D97757] text-white"
-                : "border-gray-200 text-gray-600 hover:border-[#D97757] hover:text-[#D97757]"
+                ? "font-semibold text-ink underline decoration-ink decoration-2"
+                : "text-pencil hover:text-graphite"
             }`}
           >
             {f.label}
@@ -54,7 +55,7 @@ export default function FilterBar({
           const option = sortOptions.find((o) => o.value === e.target.value);
           if (option) onSortChange(option.value);
         }}
-        className="ml-auto rounded-md border border-gray-200 bg-white px-2 py-1.5 text-xs text-gray-600 outline-none focus:border-[#D97757]"
+        className="ml-auto cursor-pointer rounded border border-transparent bg-transparent py-1 pl-1 pr-0.5 text-xs text-pencil outline-none transition-colors duration-150 hover:border-rule hover:text-graphite"
       >
         {sortOptions.map((o) => (
           <option key={o.value} value={o.value}>

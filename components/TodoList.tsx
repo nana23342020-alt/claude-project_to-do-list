@@ -19,7 +19,7 @@ export default function TodoList({
 }: Props) {
   if (todos.length === 0) {
     return (
-      <p className="px-4 py-12 text-center text-sm text-gray-400">
+      <p className="py-14 pl-14 pr-4 text-sm leading-relaxed text-pencil">
         {emptyMessage}
       </p>
     );

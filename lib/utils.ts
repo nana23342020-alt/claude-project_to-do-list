@@ -59,11 +59,12 @@ export const priorityLabels: Record<Priority, string> = {
   low: "낮음",
 };
 
-// 우선순위별 Tailwind 색상 (테두리/배경/글자)
+// 우선순위별 색상 (테두리/배경/글자). globals.css의 노트 필기구 토큰을 쓴다:
+// 높음 = 빨간펜, 보통 = 파란 볼펜, 낮음 = 연필.
 export const priorityStyles: Record<Priority, string> = {
-  high: "border-red-400 bg-red-50 text-red-600",
-  medium: "border-amber-400 bg-amber-50 text-amber-600",
-  low: "border-sky-400 bg-sky-50 text-sky-600",
+  high: "border-pen-red/40 bg-pen-red/[0.06] text-pen-red",
+  medium: "border-ink/30 bg-ink-soft text-ink",
+  low: "border-pencil/40 bg-desk/50 text-pencil",
 };
 
 function priorityRank(priority: Priority) {

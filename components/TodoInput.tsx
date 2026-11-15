@@ -51,13 +51,14 @@ export default function TodoInput({ onAdd }: Props) {
   const dueDateInvalid = error?.field === "dueDate";
 
   return (
-    <div className="p-4">
-      <div className="flex gap-2">
+    <div className="pb-4 pl-14 pr-4 pt-5">
+      <div className="flex items-end gap-3">
+        {/* 노트 줄 위에 적는 느낌: 상자 대신 밑줄 하나 */}
         <input
-          className={`min-w-0 flex-1 rounded-lg border bg-gray-50 px-4 py-2.5 text-sm outline-none transition-all duration-200 placeholder:text-gray-400 focus:bg-white focus:ring-2 ${
+          className={`min-w-0 flex-1 border-b-2 bg-transparent pb-1.5 pt-1 text-base text-graphite outline-none transition-colors duration-150 placeholder:text-pencil/70 focus-visible:outline-none ${
             textInvalid
-              ? "border-red-300 focus:border-red-400 focus:ring-red-100"
-              : "border-gray-200 focus:border-[#D97757] focus:ring-[#D97757]/20"
+              ? "border-pen-red"
+              : "border-rule hover:border-ink/40 focus:border-ink"
           }`}
           value={text}
           maxLength={MAX_LENGTH}
@@ -76,7 +77,7 @@ export default function TodoInput({ onAdd }: Props) {
         <button
           type="button"
           onClick={handleAdd}
-          className="shrink-0 whitespace-nowrap rounded-lg bg-[#D97757] px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:bg-[#c96647] active:scale-95"
+          className="shrink-0 whitespace-nowrap rounded-md bg-ink px-4 py-2 text-sm font-semibold text-paper transition-colors duration-150 hover:bg-ink-deep active:translate-y-px"
         >
           추가
         </button>
@@ -85,19 +86,19 @@ export default function TodoInput({ onAdd }: Props) {
         <p
           id="todo-input-error"
           role="alert"
-          className="mt-2 flex items-center gap-1 text-xs text-red-500"
+          className="mt-2 flex items-center gap-1 text-[0.8125rem] text-pen-red"
         >
           <span aria-hidden>⚠️</span>
           {error.message}
         </p>
       )}
-      <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
+      <div className="mt-3 flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
         <div
           role="group"
           aria-labelledby="priority-label"
           className="flex items-center gap-1 whitespace-nowrap"
         >
-          <span id="priority-label" className="mr-1 text-xs text-gray-500">
+          <span id="priority-label" className="mr-1.5 text-xs text-pencil">
             우선순위
           </span>
           {priorities.map((p) => {
@@ -108,10 +109,10 @@ export default function TodoInput({ onAdd }: Props) {
                 type="button"
                 aria-pressed={selected}
                 onClick={() => setPriority(p)}
-                className={`rounded-md border px-2 py-0.5 text-xs transition-colors duration-200 ${
+                className={`rounded border px-2 py-0.5 text-xs transition-colors duration-150 ${
                   selected
-                    ? priorityStyles[p]
-                    : "border-gray-200 text-gray-400 hover:text-gray-600"
+                    ? `${priorityStyles[p]} font-medium`
+                    : "border-transparent text-pencil hover:text-graphite"
                 }`}
               >
                 {priorityLabels[p]}
@@ -119,7 +120,7 @@ export default function TodoInput({ onAdd }: Props) {
             );
           })}
         </div>
-        <label className="flex items-center gap-1 whitespace-nowrap text-xs text-gray-500">
+        <label className="flex items-center gap-1.5 whitespace-nowrap text-xs text-pencil">
           마감일
           <input
             type="date"
@@ -131,10 +132,10 @@ export default function TodoInput({ onAdd }: Props) {
             }}
             aria-invalid={dueDateInvalid}
             aria-describedby={dueDateInvalid ? "todo-input-error" : undefined}
-            className={`rounded-md border px-1.5 py-0.5 text-xs text-gray-600 outline-none ${
+            className={`rounded border bg-paper px-1.5 py-0.5 text-xs text-graphite outline-none transition-colors duration-150 ${
               dueDateInvalid
-                ? "border-red-300 focus:border-red-400"
-                : "border-gray-200 focus:border-[#D97757]"
+                ? "border-pen-red"
+                : "border-rule hover:border-ink/40 focus:border-ink"
             }`}
           />
         </label>

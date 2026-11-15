@@ -15,25 +15,26 @@ export default function Checkbox({ checked, onChange, label }: Props) {
       aria-checked={checked}
       aria-label={label}
       onClick={onChange}
-      className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md border transition-all duration-200 active:scale-90 ${
+      className={`flex h-[1.125rem] w-[1.125rem] shrink-0 items-center justify-center rounded-[3px] border-[1.5px] transition-colors duration-150 ${
         checked
-          ? "border-[#D97757] bg-[#D97757]"
-          : "border-gray-300 bg-white hover:border-[#D97757]"
+          ? "border-ink bg-ink"
+          : "border-pencil/70 bg-paper hover:border-ink"
       }`}
     >
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={3}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className={`h-3 w-3 text-white transition-opacity duration-200 ${
-          checked ? "opacity-100" : "opacity-0"
-        }`}
-      >
-        <polyline points="20 6 9 17 4 12" />
-      </svg>
+      {checked && (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={3.5}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="check-draw h-3 w-3 text-paper"
+          aria-hidden
+        >
+          <polyline points="20 6 9 17 4 12" />
+        </svg>
+      )}
     </button>
   );
 }

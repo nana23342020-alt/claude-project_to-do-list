@@ -32,4 +32,12 @@ npx prettier --write .   # 포맷 (.prettierrc: 세미콜론, 큰따옴표, trai
 - 접근성: 아이콘/중복 이름 버튼에는 `aria-label`을 단다(체크박스는 할일 내용, 삭제는 "<할일> 삭제"). 토글 버튼 묶음(필터, 우선순위)은 `aria-pressed`로 통일한다.
 - `app/layout.tsx`가 모바일 폭(`max-w-md`) 컨테이너를 제공하고 `lang="ko"`로 설정한다.
 - 경로 별칭 `@/*` → 프로젝트 루트.
-- 스타일은 Tailwind 유틸리티 클래스로만 작성하며, 포인트 컬러는 `#D97757`(hover `#c96647`)를 arbitrary value로 직접 쓴다. `globals.css`는 `@import "tailwindcss"`만 있다 (tailwind.config 파일 없음, v4 방식).
+- `next.config.ts`에서 `turbopack.root`를 이 앱 폴더로 고정한다. 상위 `claude-project` 폴더에도 `package-lock.json`이 있어서, 고정하지 않으면 Next.js가 상위 폴더를 루트로 잡아 "React Client Manifest" 500 오류가 난다.
+
+## 디자인 시스템 ("노트에 파란 볼펜으로 적는 하루 메모")
+
+- 색·글꼴 토큰은 `app/globals.css`의 `@theme`에 모여 있다(Tailwind v4, tailwind.config 없음). 색은 hex를 직접 쓰지 말고 토큰 클래스(`bg-paper`, `text-ink`, `border-rule`, `text-pencil`, `text-pen-red` 등)를 쓴다. Tailwind 기본 회색/빨강(`gray-*`, `red-*`)도 쓰지 않는다.
+- 색의 역할: `ink`(파란 볼펜) = 주요 동작·선택·포커스·체크, `pen-red`(빨간펜) = 높은 우선순위·오류·지난 마감, `pencil` = 보조 글자, `rule` = 줄/구분선, `margin` = 왼쪽 빨간 여백선, `marker`(형광펜) = **"오늘"에만** 쓴다(제목 "오늘의 할일", 마감 "오늘" 표시). 형광펜은 `.marker` 클래스.
+- 글꼴: 제목은 `font-display`(Gowun Batang), 나머지는 기본 `font-sans`(IBM Plex Sans KR). `layout.tsx`에서 `next/font/google`로 불러오며 한글이라 `preload: false`.
+- 레이아웃: 시트 왼쪽 44px(`left-11`)에 빨간 여백선이 있고, 본문은 그 오른쪽(`pl-14`)에서 시작한다. 할일 행은 `grid-cols-[2.75rem_…]`로 체크박스를 여백선 왼쪽 칸에 둔다. 새 영역을 추가할 때도 `pl-14 pr-4`에 맞춘다.
+- 이전 포인트 컬러 `#D97757`(주황)은 쓰지 않는다 — Claude 화면 색과 같아 앱 고유의 색으로 보이지 않는다.
